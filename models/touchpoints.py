@@ -1,46 +1,32 @@
-from abc import ABC
-
-from commons.daos.json_index import BaseJsonIndexModel, AbstractJsonIndexModelsDict
-from commons.helpers.case_conversion import pascal_to_snake
+from commons.daos.json_index import BaseJsonIndexModel, AbstractJsonIndexModel
 from commons.helpers.classes import TypeRegistry
 
 
 registry = TypeRegistry()
 
 
-class AbstractTouchPoint(BaseJsonIndexModel, ABC):
-    def __init__(self, status: str = 'N/A', **kwargs):
+class TouchPoint(BaseJsonIndexModel):
+    value = Key(int, None)
+    metadata = Key(int, {})
+
+
+class TouchPoint(BaseJsonIndexModel):
+    def __init__(self, value=False, metadata=None, **kwargs):
         super().__init__(**kwargs)
-        self.status = status
-
-    def __init_subclass__(cls, **kwargs):
-        key = pascal_to_snake(cls.__name__)
-        registry[key] = cls
+        self.value = this_if_none(value, False)
+        self.metadata = this_if_none(metadata, {})
 
 
-class TouchPoints(AbstractJsonIndexModelsDict):
-    def __init__(self, source=None):
-        super().__init__(source)
-        for key, value in self.source.items():
-            if key in registry:
-                self.source[key] = registry[key](**value)
-
-
-class InitialConnection(AbstractTouchPoint):
+class TouchPoints(AbstractJsonIndexModel):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        self.initial_connection = None
+        self.initial_connection_accepted = None
 
+        assign_kwargs(self, kwargs, include_base=False)
 
-class InitialConnectionAccepted(AbstractTouchPoint):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-
-class PostConnectionIntroductionMessage(AbstractTouchPoint):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-
-class PostConnectionFollowUpMessage(AbstractTouchPoint):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        self.initial_connection = TouchPoint(kwargs.get('initial_connection'))
+        self.initial_connection_accepted = TouchPoint(kwargs.get('initial_connection_accepted'))
+        self.post_connection_intro_message = TouchPoint(kwargs.get('post_connection_intro_message'))
+        self.post_connection_follow_up_message = TouchPoint(kwargs.get('post_connection_follow_up_message'))
+        self.first_response = TouchPoint(kwargs.get(kwargs.get('first_response')))
+        self.resume_sent = TouchPoint()
