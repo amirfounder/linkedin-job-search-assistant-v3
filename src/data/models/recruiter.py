@@ -4,7 +4,7 @@ from commons.daos.json_index import JsonIndexModel as Model
 
 
 class TouchPoint(Model):
-    is_complete: Optional[int]
+    value: Optional[int]
 
 
 class Recruiter(Model):
