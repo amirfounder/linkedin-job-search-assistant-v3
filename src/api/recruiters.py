@@ -17,4 +17,4 @@ def get_recruiters_by_username(username: str):
 @app.post('/recruiters', status_code=status.HTTP_201_CREATED)
 def post_recruiter(recruiter: Recruiter):
     recruiter_index[recruiter.username] = recruiter
-    return {recruiter.dict()}
+    return recruiter.dict()
