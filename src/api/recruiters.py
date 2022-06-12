@@ -1,6 +1,6 @@
 from .app import app
-from src.indices import recruiter_index
-from ..models import Recruiter
+from src.data.indices import recruiter_index
+from src.data.models import Recruiter
 
 
 @app.get('/recruiters')

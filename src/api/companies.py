@@ -1,5 +1,5 @@
-from .app import app
-from src.indices import company_index
+from src.api.app import app
+from src.data.indices import company_index
 
 
 @app.get('/companies')
@@ -9,6 +9,6 @@ def get_companies():
 
 @app.get('/companies/next')
 def get_companies_to_target_next(return_count: int = 5):
-    for name, company in company_index.source.items():
+    for name, company in company_index.items():
         pass
 

@@ -8,8 +8,8 @@ class TouchPoint(Model):
 
 
 class Recruiter(Model):
-    name: Optional[str]
-    username: Optional[str]
+    name: str
+    username: str
     company: Optional[str]
     headline: Optional[str]
-    touchpoints: Optional[Dict[str, Optional[TouchPoint]]]
+    touchpoints: Dict[str, Optional[TouchPoint]]
