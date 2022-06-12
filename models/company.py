@@ -1,8 +1,8 @@
-from commons.daos.json_index import BaseJsonIndexModel
+from datetime import datetime
+
+from commons.daos import JsonIndexModel
 
 
-class Company(BaseJsonIndexModel):
-    def __init__(self, name, touchpoints, **kwargs):
-        super().__init__(**kwargs)
-        self.name = name
-        self.touchpoints = touchpoints
+class Company(JsonIndexModel):
+    name: str
+    last_connected: datetime

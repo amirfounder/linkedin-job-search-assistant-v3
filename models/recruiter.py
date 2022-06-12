@@ -1,13 +1,11 @@
-from commons.daos.json_index import BaseJsonIndexModel
+from commons.daos.json_index import JsonIndexModel as Model
 
 from models.touchpoints import TouchPoints
 
 
-class Recruiter(BaseJsonIndexModel):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.name = kwargs.get('name')
-        self.username = kwargs.get('username')
-        self.company = kwargs.get('company')
-        self.headline = kwargs.get('headline')
-        self.touchpoints = TouchPoints(kwargs.get('touchpoints'))
+class Recruiter(Model):
+    name: str
+    username: str
+    company: str
+    headline: str
+    touchpoints: TouchPoints

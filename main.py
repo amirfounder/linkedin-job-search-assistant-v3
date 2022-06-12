@@ -1,7 +1,8 @@
 from datetime import timedelta
 from http import HTTPStatus
 
-from commons import now, safe_cast
+from commons.helpers import now
+from commons.utils import safe_cast
 from flask import Flask, request
 from flask_cors import CORS
 
@@ -11,8 +12,8 @@ from models import Recruiter, Company
 app = Flask(__name__)
 CORS(app)
 
-recruiters_idx = RecruiterIndex()
-companies_idx = CompanyIndex()
+recruiters_idx = RecruiterIndex.build()
+companies_idx = CompanyIndex.build()
 
 
 @app.route('/recruiters/save', methods=['POST'])
@@ -25,17 +26,13 @@ def save_recruiter():
     recruiters_idx.put(username, dict(recruiter))
 
     if company_name:
-        company = companies_idx.get(company_name)
-        if not company:
-            company = Company(
-                company_name,
-                recruiter.touchpoints.source.get('initial_connection').updated_at
-            )
-        else:
-            for _, touchpoint in recruiter.touchpoints:
-                if company.updated_at < touchpoint.updated_at:
-                    company.updated_at = touchpoint.updated_at
-                    break
+        company_dict = companies_idx.get(company_name)
+        company = Company(**company_dict) if company_dict else Company(name=company_name)
+
+        for touchpoint in recruiter.touchpoints.get():
+            if company.updated_at < touchpoint.updated_at:
+                company.updated_at = touchpoint.updated_at
+                break
 
         companies_idx.put(company_name, company)
 
