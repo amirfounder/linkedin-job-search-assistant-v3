@@ -12,7 +12,7 @@ class Profile(Model):
     name: str
     company: Optional[str]
     headline: str
-    fname: str
+    first_name: str
     linkedin_url: str
     username: Optional[str]
 
