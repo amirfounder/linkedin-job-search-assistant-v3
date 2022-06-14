@@ -10,6 +10,7 @@ def get_companies():
     return [company for company in company_index.values()]
 
 
+# Replace to queued instead of next
 @router.get('/next', status_code=status.HTTP_200_OK)
 def get_next_company(return_count: int = 5):
     res = []
