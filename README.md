@@ -1,3 +1,21 @@
+# LinkedIn Job Search Assistant V3
+
+## Resources
+
+### Models
+
+#### Recruiter (Renaming to Connection SOON)
+
+#### Company
+
+### SubModels
+
+#### CompanyAlias
+
+#### Interaction
+
+#### Touchpoint
+
 # TODO
 
 ### Database CONFIG
